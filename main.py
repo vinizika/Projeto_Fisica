@@ -24,7 +24,7 @@ def energy_n(n, L):
     hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
     if menu_energia() == 1:
         m = 1.6726219e-27  # Massa do proton, em kg
-    elif menu_energia() == 2:
+    else:
         m = 9.11e-31 # Massa do eletron, em kg
     E_joules = ((n ** 2) * (pi ** 2) * (hbar ** 2)) / (2 * m * (L ** 2))
     E_eV = E_joules / 1.60218e-19  # Conversão de Joule para eV
@@ -36,6 +36,18 @@ def menu_energia():
     print("[2] Eletron")
     n = int(input())
     return n
+
+def velocidade_electron(n):
+    hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
+    if menu_energia() == 1:
+        m = 1.6726219e-27  # Massa do proton, em kg
+    else:
+        m = 9.11e-31 # Massa do eletron, em kg
+    E_joules = ((n ** 2) * (pi ** 2) * (hbar ** 2)) / (2 * m * (L ** 2))
+    E_eV = E_joules / 1.60218e-19  # Conversão de Joule para eV
+    p = sqrt(2 * m * E_joules)
+    v_n = p / m
+    return v_n
 
 while(True):
     n = menu()
@@ -62,7 +74,8 @@ while(True):
         print(f"Energia do nível quântico inicial (E_i): {E_inicial_joules:.4e} Joules ({E_inicial_eV:.4e} eV)")
         print(f"Energia do nível quântico final (E_f): {E_final_joules:.4e} Joules ({E_final_eV:.4e} eV)")
 
-
+        print(f"Velocidade no nível {n_inicial}: {velocidade_electron(n_inicial):.2f} m/s")
+        print(f"Velocidade no nível {n_final}: {velocidade_electron(n_final):.2f} m/s")
 
     elif n == 2:
         if menu_posicao() == 1:
