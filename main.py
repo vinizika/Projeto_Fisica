@@ -1,4 +1,3 @@
-import numpy as np
 from math import * 
 
 def menu():
@@ -9,24 +8,91 @@ def menu():
     n = int(input("Escolha a sua opcao: "))
     return n
 
+def menu_posicao():
+    print("Você deseja entrar com a posicao em:\n")
+    print("[1] Probabilidade (0 a 1)\n")
+    print("[2] Metros\n")
+    n = int(input())
+    return n
+
+def psi(x, n, L):
+    amplitude = sqrt(2 / L)
+    k = n*pi / L
+    return amplitude, k
+
+def energy_n(n, L):
+    hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
+    if menu_energia() == 1:
+        m = 1.6726219e-27  # Massa do proton, em kg
+    elif menu_energia() == 2:
+        m = 9.11e-31 # Massa do eletron, em kg
+    E_joules = ((n ** 2) * (pi ** 2) * (hbar ** 2)) / (2 * m * (L ** 2))
+    E_eV = E_joules / 1.60218e-19  # Conversão de Joule para eV
+    return E_joules, E_eV
+
+def menu_energia():
+    print("Voce deseja calcular a energia de que particula?\n")
+    print("[1] Proton")
+    print("[2] Eletron")
+    n = int(input())
+    return n
+
 while(True):
     n = menu()
     if n == 1:
-        print("Opcao [1] selecionada")
+        L = float(input("Digite a largura da caixa (L): "))
+        n_inicial = int(input("Digite o nível quântico inicial (n inicial): "))
+        n_final = int(input("Digite o nível quântico final (n final): "))
+        while True:
+            a = float(input("Digite o limite inferior (a): "))
+            b = float(input("Digite o limite superior (b): "))
+            if 0 <= a <= b <= L:
+                break
+            else:
+                print(f"Por favor, garanta que 0 <= a <= b <= L ({L}). Tente novamente.")
+        amplitude_inicial, k_inicial = psi(a, n_inicial, L)
+        amplitude_final, k_final = psi(b, n_final, L)
+
+        print(f"Função de onda para n inicial: 𝜓(x) = {amplitude_inicial:.3e} sin({k_inicial:.3e} x)")
+        print(f"Função de onda para n final: 𝜓(x) = {amplitude_final:.3e} sin({k_final:.3e} x)")
+
+        E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
+        E_final_joules, E_final_eV = energy_n(n_final, L)
+
+        print(f"Energia do nível quântico inicial (E_i): {E_inicial_joules:.4e} Joules ({E_inicial_eV:.4e} eV)")
+        print(f"Energia do nível quântico final (E_f): {E_final_joules:.4e} Joules ({E_final_eV:.4e} eV)")
+
+
+
     elif n == 2:
-        A = float(input("Digite o valor da amplitude (A): "))
-        k = float(input("Digite o valor do número de onda (k): "))
-        Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
+        if menu_posicao() == 1:
+            A = float(input("Digite o valor da amplitude (A): "))
+            k = float(input("Digite o valor do número de onda (k): "))
+            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
 
-        L = 2/A**2
-        n = round(k * L / np.pi)  
+            L = 2/A**2
+            n = round((k*L)/pi)  
 
-        probabilidade_xp = L*Xp
-        probabilidade = A**2 * np.sin(k * probabilidade_xp)**2
+            probabilidade_xp = L*Xp
+            probabilidade = A**2 * sin(k * probabilidade_xp)**2
 
-        print(f"Largura da caixa (L): {L} metros")
-        print(f"Nível quântico da partícula (n): {n}")
-        print(f"Probabilidade de encontrar a partícula na posição {probabilidade_xp} é: {probabilidade:.5f}")
+            print(f"Largura da caixa (L): {L} metros")
+            print(f"Nível quântico da partícula (n): {n}")
+            print(f"Probabilidade de encontrar a partícula na posição {probabilidade_xp} é: {probabilidade:.5f}")
+        elif menu_posicao() == 2:
+            A = float(input("Digite o valor da amplitude (A): "))
+            k = float(input("Digite o valor do número de onda (k): "))
+            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
+
+            L = 2/A**2
+            n = round((k*L)/pi)  
+            probabilidade = A**2 * sin(k * Xp)**2
+
+            print(f"Largura da caixa (L): {L} metros")
+            print(f"Nível quântico da partícula (n): {n}")
+            print(f"Probabilidade de encontrar a partícula na posição {Xp} é: {probabilidade:.5f}")
+        else:
+            print("Opcao invalida")
     elif n == 3:
         break
     else:
