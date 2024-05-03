@@ -1,20 +1,28 @@
-import numpy as np
-from math import * 
+def velocidade_electron(n):
+    # Constantes
+    e = 1.602e-19  # carga do elétron em Coulombs
+    epsilon_0 = 8.854e-12  # permissividade do vácuo em Farad/m
+    h = 6.626e-34  # constante de Planck em Joule*segundo
+    
+    # Cálculo da velocidade para o nível n
+    v_n = (e**2 / (2 * epsilon_0 * h)) / n
+    return v_n
 
+def main():
+    # Solicita ao usuário o nível inicial e final
+    n_inicial = int(input("Digite o nível quântico inicial: "))
+    n_final = int(input("Digite o nível quântico final: "))
+    
+    # Verifica se o nível inicial é menor ou igual ao nível final
+    if n_inicial > n_final:
+        print("O nível inicial deve ser menor ou igual ao nível final.")
+        return
+    
+    # Calcula e exibe a velocidade para cada nível no intervalo
+    for n in range(n_inicial, n_final + 1):
+        v_n = velocidade_electron(n)
+        print(f"Velocidade no nível {n}: {v_n:.2f} m/s")
 
-A = float(input("Digite o valor da amplitude (A): "))
-k = float(input("Digite o valor do número de onda (k): "))
-Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
-
-L = 2/A**2
-n = round(k * L / np.pi)  
-
-probabilidade_xp = L*Xp
-
-
-
-probabilidade = A**2 * np.sin(k * probabilidade_xp)**2
-
-print(f"Largura da caixa (L): {L} metros")
-print(f"Nível quântico da partícula (n): {n}")
-print(f"Probabilidade de encontrar a partícula na posição {probabilidade_xp} é: {probabilidade:.5f}")
+# Executa o programa
+if __name__ == "__main__":
+    main()
