@@ -62,6 +62,44 @@ def velocidade_electron(n):
     v_n = p / m
     return v_n
 
+def grafico_funcao_de_onda(L, A, ki, kf):
+    # Valores de x para o grafico
+    x_vals = np.linspace(0, L * 1e-9, 1000)
+    psi_inicial_vals = A * np.sin(ki * x_vals)
+    psi_final_vals = A * np.sin(kf * x_vals)
+
+    # Normalização das funções de onda para evitar distorções no gráfico
+    psi_inicial_vals_normalizado = psi_inicial_vals / np.max(np.abs(psi_inicial_vals))
+    psi_final_vals_normalizado = psi_final_vals / np.max(np.abs(psi_final_vals))
+
+    # Plotar as funções de onda
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, psi_inicial_vals_normalizado, label='Nível Inicial')
+    plt.plot(x_vals, psi_final_vals_normalizado, label='Nível Final')
+    plt.xlabel('Posição x (m)')
+    plt.ylabel('𝜓(x)')
+    plt.title('Gráfico da função de onda inicial e final')
+    plt.legend()
+    plt.grid(True)
+    plt.ylim(-1.1, 1.1) # Definir os limites ideias para o eixo y
+    plt.show()
+
+def grafico_distribuicao_probabilidades(L, A, ki, kf):
+    # Valores de x para o gráfico
+    x_vals = np.linspace(0, L * 1e-9, 1000)
+    psi_inicial_vals = (A * np.sin(ki * x_vals))**2
+    psi_final_vals = (A * np.sin(kf * x_vals))**2
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, psi_inicial_vals, label='Nível Inicial')
+    plt.plot(x_vals, psi_final_vals, label='Nível Final')
+    plt.xlabel('Posição x (m)')
+    plt.ylabel('𝜓(x)^2')
+    plt.title('Gráfico da distribuição de probabilidade inicial e final')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 while(True):
     n = menu()
     if n == 1:
