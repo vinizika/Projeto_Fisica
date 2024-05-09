@@ -1,10 +1,15 @@
 from math import * 
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import matplotlib.patches as patches
+import numpy as np
 
 def menu():
     print("Simulador Crocodilo de Perdizes\n")
     print("[1] Determinação da função de onda quântica e outros parâmetros\n")
     print("[2] Cálculo dos parâmetros da caixa e partícula, dada a função de onda\n")
-    print("[3] Encerrar Programa\n")
+    print("[3] Grafico\n")
+    print("[4] Encerrar Programa\n")
     n = int(input("Escolha a sua opcao: "))
     return n
 
@@ -22,7 +27,11 @@ def psi(x, n, L):
 
 def energy_n(n, L):
     hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
-    if menu_energia() == 1:
+    print("Voce deseja calcular a energia de que particula?\n")
+    print("[1] Proton")
+    print("[2] Eletron")
+    i = int(input())
+    if i == 1:
         m = 1.6726219e-27  # Massa do proton, em kg
     else:
         m = 9.11e-31 # Massa do eletron, em kg
@@ -39,7 +48,11 @@ def menu_energia():
 
 def velocidade_electron(n):
     hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
-    if menu_energia() == 1:
+    print(f"Voce deseja calcular a velocidade no nivel {n} de que particula?\n")
+    print("[1] Proton")
+    print("[2] Eletron")
+    i = int(input())
+    if i == 1:
         m = 1.6726219e-27  # Massa do proton, em kg
     else:
         m = 9.11e-31 # Massa do eletron, em kg
@@ -70,6 +83,26 @@ while(True):
 
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
+
+        # Cálculos das energias iniciais e finais
+        E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
+        E_final_joules, E_final_eV = energy_n(n_final, L)
+        
+        # Diferença de energia entre os níveis
+        delta_E_joules = abs(E_final_joules - E_inicial_joules)
+        delta_E_eV = abs(E_final_eV - E_inicial_eV)
+        
+        # Cálculo da frequência do fóton
+        h = 6.62607015e-34  # Constante de Planck em J*s
+        foton_frequencia = delta_E_joules / h
+
+        # Cálculo do comprimento de onda do fóton
+        c = 3e8  # Velocidade da luz em m/s
+        foton_lambda = c / foton_frequencia if foton_frequencia != 0 else 0
+        
+        print(f"Energia do fóton (𝐸_𝑓ó𝑡𝑜𝑛): {delta_E_eV:.4e} eV")
+        print(f"Frequência do fóton (𝑓): {foton_frequencia:.4e} Hz")
+        print(f"Comprimento de onda do fóton (𝜆): {foton_lambda:.4e} m")
 
         print(f"Energia do nível quântico inicial (E_i): {E_inicial_joules:.4e} Joules ({E_inicial_eV:.4e} eV)")
         print(f"Energia do nível quântico final (E_f): {E_final_joules:.4e} Joules ({E_final_eV:.4e} eV)")
@@ -107,6 +140,8 @@ while(True):
         else:
             print("Opcao invalida")
     elif n == 3:
+        print("Simulacao")
+    elif n == 4:
         break
     else:
         print("Entrada invalida")
