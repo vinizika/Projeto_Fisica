@@ -110,6 +110,9 @@ while(True):
         print(f"Velocidade no nível {n_inicial}: {velocidade_electron(n_inicial):.2f} m/s")
         print(f"Velocidade no nível {n_final}: {velocidade_electron(n_final):.2f} m/s")
 
+        print(f"Comprimento de onda de De Broglie no nível inicial ({n_inicial}): {2*L/n_inicial} unidades")
+        print(f"Comprimento de onda de De Broglie no nível final ({n_final}): {2*L/n_final} unidades")
+
     elif n == 2:
         if menu_posicao() == 1:
             A = float(input("Digite o valor da amplitude (A): "))
