@@ -6,7 +6,7 @@ import numpy as np
 from scipy.integrate import quad
 
 def menu():
-    print("Simulador Crocodilo de Perdizes\n")
+    print("Simulador Física\n")
     print("[1] Determinação da função de onda quântica e outros parâmetros\n")
     print("[2] Cálculo dos parâmetros da caixa e partícula, dada a função de onda\n")
     print("[3] Grafico\n")
@@ -21,7 +21,7 @@ def menu_posicao():
     n = int(input())
     return n
 
-def psi(x, n, L):
+def psi(n, L):
     amplitude = sqrt(2 / L)
     k = n*pi / L
     return amplitude, k
@@ -71,45 +71,53 @@ def velocidade_electron(n):
     v_n = p / m
     return v_n
 
-def grafico_funcao_de_onda(L, A, ki, kf):
-    
-    x_vals = np.linspace(0, L * 1e-9, 1000)
-    psi_inicial_vals = A * np.sin(ki * x_vals)
-    psi_final_vals = A * np.sin(kf * x_vals)
+def grafico_funcao_de_onda(L, n_inicial, n_final):
+    num_x = np.linspace(0, L, 1000)
+    amplitude_inicial, k_inicial = psi(n_inicial, L)
+    amplitude_final, k_final = psi(n_final, L)
+    psi_inicial = amplitude_inicial * np.sin(k_inicial * num_x)
+    psi_final = amplitude_final * np.sin(k_final * num_x)
 
-    
-    psi_inicial_vals_normalizado = psi_inicial_vals / np.max(np.abs(psi_inicial_vals))
-    psi_final_vals_normalizado = psi_final_vals / np.max(np.abs(psi_final_vals))
-
-    
     plt.figure(figsize=(10, 6))
-    plt.plot(x_vals, psi_inicial_vals_normalizado, label='Nível Inicial')
-    plt.plot(x_vals, psi_final_vals_normalizado, label='Nível Final')
+    plt.plot(num_x, psi_inicial, label='Nível Inicial')
+    plt.plot(num_x, psi_final, label='Nível Final')
     plt.xlabel('Posição x (m)')
-    plt.ylabel('𝜓(x)')
+    plt.ylabel('ψ(x)')
     plt.title('Gráfico da função de onda inicial e final')
     plt.legend()
     plt.grid(True)
-    plt.ylim(-1.1, 1.1) 
     plt.show()
 
-def grafico_distribuicao_probabilidades(L, A, ki, kf):
-   
-    x_vals = np.linspace(0, L * 1e-9, 1000)
-    psi_inicial_vals = (A * np.sin(ki * x_vals))**2
-    psi_final_vals = (A * np.sin(kf * x_vals))**2
-
+def grafico_distribuicao_probabilidades(L, n_inicial, n_final):
+    num_x = np.linspace(0, L, 1000)
+    amplitude_inicial, k_inicial = psi(n_inicial, L)
+    amplitude_final, k_final = psi(n_final, L)
+    
+    psi_inicial = amplitude_inicial * np.sin(k_inicial * num_x)
+    psi_final = amplitude_final * np.sin(k_final * num_x)
+    
+    probabilidade_inicial_vals = psi_inicial**2
+    probabilidade_final_vals = psi_final**2
+    
     plt.figure(figsize=(10, 6))
-    plt.plot(x_vals, psi_inicial_vals, label='Nível Inicial')
-    plt.plot(x_vals, psi_final_vals, label='Nível Final')
+    plt.plot(num_x, probabilidade_inicial_vals, label='Distribuição Inicial')
+    plt.plot(num_x, probabilidade_final_vals, label='Distribuição Final')
     plt.xlabel('Posição x (m)')
-    plt.ylabel('𝜓(x)^2')
-    plt.title('Gráfico da distribuição de probabilidade inicial e final')
+    plt.ylabel('|ψ(x)|²')
+    plt.title('Gráfico da Distribuição de Probabilidade')
     plt.legend()
     plt.grid(True)
+    plt.ylim(0, np.max([probabilidade_inicial_vals, probabilidade_final_vals]) * 1.1)  # Definindo o limite superior para melhor visualização
     plt.show()
 
 while(True):
+    print(' ')
+    print('Gabriel Koiama - RA: 24.123.051-5')
+    print('João Pedro Peterutto - RA: 24.123.045-7')
+    print('João Pedro Lopes - RA: 24.123.071-3')
+    print('Vinicius Duarte - RA: 24.123.073-9\n')
+    print('O projeto "Simulador Física" é uma ferramenta educativa em Python desenvolvida para explorar conceitos de mecânica quântica através da simulação de uma partícula em uma caixa. O software utiliza a biblioteca Matplotlib para visualizações gráficas interativas, permitindo aos usuários visualizar funções de onda, distribuições de probabilidade e dinâmicas de transição de estado quântico. O código inclui um menu interativo para facilitar a navegação entre diferentes cálculos e visualizações, como determinação de função de onda, cálculo de energia, e simulações de movimento de partículas em níveis quânticos. Essencialmente, o design foca na usabilidade e na integração de elementos interativos para promover um aprendizado mais intuitivo e visual dos princípios da física quântica.\n')
+    print('É importante que você veja atentamente o menu e durante todo o código será perguntado se você deseja calcular as informações de um Próton (1) ou Elétron (2), para que não haja nenhum erro de interpretação do código')
     n = menu()
     if n == 1:
         L = float(input("Digite a largura da caixa (L): "))
@@ -122,19 +130,16 @@ while(True):
                 break
             else:
                 print(f"Por favor, garanta que 0 <= a <= b <= L ({L}). Tente novamente.")
-        amplitude_inicial, k_inicial = psi(a, n_inicial, L)
-        amplitude_final, k_final = psi(b, n_final, L)
-
+        amplitude_inicial, k_inicial = psi(n_inicial, L)
+        amplitude_final, k_final =psi(n_final,L)
         print(f"Função de onda para n inicial: 𝜓(x) = {amplitude_inicial:.3e} sin({k_inicial:.3e} x)")
         print(f"Função de onda para n final: 𝜓(x) = {amplitude_final:.3e} sin({k_final:.3e} x)")
 
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
 
-       
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
-        
         
         delta_E_joules = abs(E_final_joules - E_inicial_joules)
         delta_E_eV = abs(E_final_eV - E_inicial_eV)
@@ -162,6 +167,9 @@ while(True):
 
         prob = probability(a, b, n_inicial, L)
         print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_inicial} é {prob:.4f}.")
+
+        grafico_funcao_de_onda(L, n_inicial, n_final)
+        grafico_distribuicao_probabilidades(L, n_inicial, n_final)
 
     elif n == 2:
         if menu_posicao() == 1:
