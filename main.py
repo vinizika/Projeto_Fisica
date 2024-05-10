@@ -46,6 +46,14 @@ def menu_energia():
     n = int(input())
     return n
 
+def wave_function(x, n, L):
+    return np.sqrt(2 / L) * np.sin(n * np.pi * x / L)
+
+def probability(a, b, n, L):
+    integrand = lambda x: wave_function(x, n, L)**2
+    result, _ = quad(integrand, a, b)
+    return result
+
 def velocidade_electron(n):
     hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
     print(f"Voce deseja calcular a velocidade no nivel {n} de que particula?\n")
@@ -150,6 +158,9 @@ while(True):
 
         print(f"Comprimento de onda de De Broglie no nível inicial ({n_inicial}): {2*L/n_inicial} unidades")
         print(f"Comprimento de onda de De Broglie no nível final ({n_final}): {2*L/n_final} unidades")
+
+        prob = probability(a, b, n_inicial, L)
+        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n} é {prob:.4f}.")
 
     elif n == 2:
         if menu_posicao() == 1:
