@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib.patches as patches
 import numpy as np
+from scipy.integrate import quad
 
 def menu():
     print("Simulador Crocodilo de Perdizes\n")
