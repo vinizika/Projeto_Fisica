@@ -180,7 +180,7 @@ while(True):
         prob = probability(a, b, n_inicial, L)
         probf = probability(a, b, n_final, L)
         print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_inicial} é {prob:.4f}.\n")
-        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_final} é {prob:.4f}.\n")
+        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_final} é {probf:.4f}.\n")
 
         grafico_funcao_de_onda(L, n_inicial, n_final)
         grafico_distribuicao_probabilidades(L, n_inicial, n_final)
