@@ -211,7 +211,7 @@ while(True):
                     glow.set_color('green')  # Verde para descer
                 else:
                     glow.set_color('none')
-                    glow.set_radius(0.05)
+                glow.set_radius(0.05)
             elif x == 0:  # Atualiza o nível da partícula no começo da linha
                 current_level = next_level
                 current_index = next_level_index
