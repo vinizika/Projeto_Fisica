@@ -211,7 +211,7 @@ while(True):
             n = round((k*L)/pi)  
             probabilidade = A**2 * sin(k * Xp)**2
 
-            print(f"Largura da caixa (L): {L:.2f} metros\n")
+            print(f"Largura da caixa (L): {L:.4e} metros\n") #MEXER NESSA PORRA ANTES DO VÍDEO
             print(f"Nível quântico da partícula (n): {n}\n")
             print(f"Probabilidade de encontrar a partícula na posição {Xp} é: {probabilidade:.5f}\n")
             
