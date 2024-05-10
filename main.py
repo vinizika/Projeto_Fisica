@@ -110,7 +110,7 @@ def grafico_distribuicao_probabilidades(L, n_inicial, n_final):
     plt.ylim(0, np.max([probabilidade_inicial_vals, probabilidade_final_vals]) * 1.1)  # Definindo o limite superior para melhor visualização
     plt.show()
 
-largura = 0.0
+largura = 1.0
 
 while(True):
     print(' ')
@@ -190,7 +190,7 @@ while(True):
             Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: \n"))
 
             L = 2/A**2
-            L = largura
+            largura = L
             n = round((k*L)/pi)  
 
             probabilidade_xp = L*Xp
