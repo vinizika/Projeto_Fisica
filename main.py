@@ -27,17 +27,17 @@ def psi(x, n, L):
     return amplitude, k
 
 def energy_n(n, L):
-    hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
+    hbar = 1.0545718e-34  
     print("Voce deseja calcular a energia de que particula?\n")
     print("[1] Proton")
     print("[2] Eletron")
     i = int(input())
     if i == 1:
-        m = 1.6726219e-27  # Massa do proton, em kg
+        m = 1.6726219e-27  
     else:
-        m = 9.11e-31 # Massa do eletron, em kg
+        m = 9.11e-31 
     E_joules = ((n ** 2) * (pi ** 2) * (hbar ** 2)) / (2 * m * (L ** 2))
-    E_eV = E_joules / 1.60218e-19  # Conversão de Joule para eV
+    E_eV = E_joules / 1.60218e-19 
     return E_joules, E_eV
 
 def menu_energia():
@@ -56,32 +56,32 @@ def probability(a, b, n, L):
     return result
 
 def velocidade_electron(n):
-    hbar = 1.0545718e-34  # Constante de Planck reduzida, em J*s
+    hbar = 1.0545718e-34  
     print(f"Voce deseja calcular a velocidade no nivel {n} de que particula?\n")
     print("[1] Proton")
     print("[2] Eletron")
     i = int(input())
     if i == 1:
-        m = 1.6726219e-27  # Massa do proton, em kg
+        m = 1.6726219e-27  
     else:
-        m = 9.11e-31 # Massa do eletron, em kg
+        m = 9.11e-31 
     E_joules = ((n ** 2) * (pi ** 2) * (hbar ** 2)) / (2 * m * (L ** 2))
-    E_eV = E_joules / 1.60218e-19  # Conversão de Joule para eV
+    E_eV = E_joules / 1.60218e-19  
     p = sqrt(2 * m * E_joules)
     v_n = p / m
     return v_n
 
 def grafico_funcao_de_onda(L, A, ki, kf):
-    # Valores de x para o grafico
+    
     x_vals = np.linspace(0, L * 1e-9, 1000)
     psi_inicial_vals = A * np.sin(ki * x_vals)
     psi_final_vals = A * np.sin(kf * x_vals)
 
-    # Normalização das funções de onda para evitar distorções no gráfico
+    
     psi_inicial_vals_normalizado = psi_inicial_vals / np.max(np.abs(psi_inicial_vals))
     psi_final_vals_normalizado = psi_final_vals / np.max(np.abs(psi_final_vals))
 
-    # Plotar as funções de onda
+    
     plt.figure(figsize=(10, 6))
     plt.plot(x_vals, psi_inicial_vals_normalizado, label='Nível Inicial')
     plt.plot(x_vals, psi_final_vals_normalizado, label='Nível Final')
@@ -90,11 +90,11 @@ def grafico_funcao_de_onda(L, A, ki, kf):
     plt.title('Gráfico da função de onda inicial e final')
     plt.legend()
     plt.grid(True)
-    plt.ylim(-1.1, 1.1) # Definir os limites ideias para o eixo y
+    plt.ylim(-1.1, 1.1) 
     plt.show()
 
 def grafico_distribuicao_probabilidades(L, A, ki, kf):
-    # Valores de x para o gráfico
+   
     x_vals = np.linspace(0, L * 1e-9, 1000)
     psi_inicial_vals = (A * np.sin(ki * x_vals))**2
     psi_final_vals = (A * np.sin(kf * x_vals))**2
@@ -131,20 +131,20 @@ while(True):
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
 
-        # Cálculos das energias iniciais e finais
+       
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
         
-        # Diferença de energia entre os níveis
+        
         delta_E_joules = abs(E_final_joules - E_inicial_joules)
         delta_E_eV = abs(E_final_eV - E_inicial_eV)
         
-        # Cálculo da frequência do fóton
-        h = 6.62607015e-34  # Constante de Planck em J*s
+        
+        h = 6.62607015e-34  
         foton_frequencia = delta_E_joules / h
 
-        # Cálculo do comprimento de onda do fóton
-        c = 3e8  # Velocidade da luz em m/s
+      
+        c = 3e8  
         foton_lambda = c / foton_frequencia if foton_frequencia != 0 else 0
         
         print(f"Energia do fóton (𝐸_𝑓ó𝑡𝑜𝑛): {delta_E_eV:.4e} eV")
@@ -198,10 +198,10 @@ while(True):
         n_levels = 5
         energy_values = np.linspace(0.1, 0.4, n_levels)
 
-        # Sequência específica de níveis para o movimento da partícula
+       
         movement_sequence = [1, 1, 4, 2, 5, 3, 1, 3, 5, 2, 4, 1, 5, 3, 1, 4, 1]
-        current_index = 0  # Índice inicial na sequência de movimento
-        current_level = movement_sequence[current_index]  # Nível inicial baseado no primeiro índice
+        current_index = 0  
+        current_level = movement_sequence[current_index] 
 
         def init():
             particle.set_data([], [])
@@ -216,19 +216,19 @@ while(True):
             next_level_index = (current_index + 1) % len(movement_sequence)
             next_level = movement_sequence[next_level_index]
 
-            if x == 4.9:  # Atualiza o brilho para o próximo movimento
+            if x == 4.9:  
                 if next_level > current_level:
-                    glow.set_color('blue')  # Azul para subir
+                    glow.set_color('blue')  
                 elif next_level < current_level:
-                    glow.set_color('green')  # Verde para descer
+                    glow.set_color('green')  
                 else:
                     glow.set_color('none')
                 glow.set_radius(0.05)
-            elif x == 0:  # Atualiza o nível da partícula no começo da linha
+            elif x == 0:  
                 current_level = next_level
                 current_index = next_level_index
             else:
-                glow.set_radius(max(0, glow.get_radius() - 0.001))  # Faz o brilho diminuir gradualmente
+                glow.set_radius(max(0, glow.get_radius() - 0.001))  
             particle.set_data(x, energy_values[current_level - 1])
             glow.center = (x, energy_values[current_level - 1])
             return [particle, glow] + lines
