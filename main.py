@@ -9,7 +9,7 @@ def menu():
     print("Simulador Física\n")
     print("[1] Determinação da função de onda quântica e outros parâmetros\n")
     print("[2] Cálculo dos parâmetros da caixa e partícula, dada a função de onda\n")
-    print("[3] Grafico\n")
+    print("[3] Simulacao\n")
     print("[4] Encerrar Programa\n")
     n = int(input("Escolha a sua opcao: "))
     return n
@@ -110,6 +110,8 @@ def grafico_distribuicao_probabilidades(L, n_inicial, n_final):
     plt.ylim(0, np.max([probabilidade_inicial_vals, probabilidade_final_vals]) * 1.1)  # Definindo o limite superior para melhor visualização
     plt.show()
 
+largura = 0.0
+
 while(True):
     print(' ')
     print('Gabriel Koiama - RA: 24.123.051-5')
@@ -121,8 +123,18 @@ while(True):
     n = menu()
     if n == 1:
         L = float(input("Digite a largura da caixa (L): "))
-        n_inicial = int(input("Digite o nível quântico inicial (n inicial): "))
-        n_final = int(input("Digite o nível quântico final (n final): "))
+        largura = L
+        while(True):
+            n_inicial = int(input("Digite o nível quântico inicial (n inicial): "))
+            n_final = int(input("Digite o nível quântico final (n final): "))
+            if n_final < 0 or n_inicial < 0:
+                print("O valor de n precisa ser maior que 0")
+            else:
+                break
+        if n_final > n_inicial:
+            print("Foton absorvido para o salto quantico")
+        else:
+            print("Foton emitido para o salto quantico")
         while True:
             a = float(input("Digite o limite inferior (a): "))
             b = float(input("Digite o limite superior (b): "))
@@ -132,8 +144,8 @@ while(True):
                 print(f"Por favor, garanta que 0 <= a <= b <= L ({L}). Tente novamente.")
         amplitude_inicial, k_inicial = psi(n_inicial, L)
         amplitude_final, k_final =psi(n_final,L)
-        print(f"Função de onda para n inicial: 𝜓(x) = {amplitude_inicial:.3e} sin({k_inicial:.3e} x)")
-        print(f"Função de onda para n final: 𝜓(x) = {amplitude_final:.3e} sin({k_final:.3e} x)")
+        print(f"Função de onda para n inicial: 𝜓(x) = {amplitude_inicial:.3e} sin({k_inicial:.3e} x)\n")
+        print(f"Função de onda para n final: 𝜓(x) = {amplitude_final:.3e} sin({k_final:.3e} x)\n")
 
         E_inicial_joules, E_inicial_eV = energy_n(n_inicial, L)
         E_final_joules, E_final_eV = energy_n(n_final, L)
@@ -152,52 +164,54 @@ while(True):
         c = 3e8  
         foton_lambda = c / foton_frequencia if foton_frequencia != 0 else 0
         
-        print(f"Energia do fóton (𝐸_𝑓ó𝑡𝑜𝑛): {delta_E_eV:.4e} eV")
-        print(f"Frequência do fóton (𝑓): {foton_frequencia:.4e} Hz")
-        print(f"Comprimento de onda do fóton (𝜆): {foton_lambda:.4e} m")
+        print(f"Energia do fóton (𝐸_𝑓ó𝑡𝑜𝑛): {delta_E_eV:.4e} eV\n")
+        print(f"Frequência do fóton (𝑓): {foton_frequencia:.4e} Hz\n")
+        print(f"Comprimento de onda do fóton (𝜆): {foton_lambda:.4e} m\n")
 
-        print(f"Energia do nível quântico inicial (E_i): {E_inicial_joules:.4e} Joules ({E_inicial_eV:.4e} eV)")
-        print(f"Energia do nível quântico final (E_f): {E_final_joules:.4e} Joules ({E_final_eV:.4e} eV)")
+        print(f"Energia do nível quântico inicial (E_i): {E_inicial_joules:.4e} Joules ({E_inicial_eV:.4e} eV)\n")
+        print(f"Energia do nível quântico final (E_f): {E_final_joules:.4e} Joules ({E_final_eV:.4e} eV)\n")
 
-        print(f"Velocidade no nível {n_inicial}: {velocidade_electron(n_inicial):.2f} m/s")
-        print(f"Velocidade no nível {n_final}: {velocidade_electron(n_final):.2f} m/s")
+        print(f"Velocidade no nível {n_inicial}: {velocidade_electron(n_inicial):.2f} m/s\n")
+        print(f"Velocidade no nível {n_final}: {velocidade_electron(n_final):.2f} m/s\n")
 
-        print(f"Comprimento de onda de De Broglie no nível inicial ({n_inicial}): {2*L/n_inicial} unidades")
-        print(f"Comprimento de onda de De Broglie no nível final ({n_final}): {2*L/n_final} unidades")
+        print(f"Comprimento de onda de De Broglie no nível inicial ({n_inicial}): {2*L/n_inicial} m\n")
+        print(f"Comprimento de onda de De Broglie no nível final ({n_final}): {2*L/n_final} m\n")
 
         prob = probability(a, b, n_inicial, L)
-        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_inicial} é {prob:.4f}.")
+        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_inicial} é {prob:.4f}.\n")
 
         grafico_funcao_de_onda(L, n_inicial, n_final)
         grafico_distribuicao_probabilidades(L, n_inicial, n_final)
 
     elif n == 2:
         if menu_posicao() == 1:
-            A = float(input("Digite o valor da amplitude (A): "))
-            k = float(input("Digite o valor do número de onda (k): "))
-            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
+            A = float(input("Digite o valor da amplitude (A): \n"))
+            k = float(input("Digite o valor do número de onda (k): \n"))
+            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: \n"))
 
             L = 2/A**2
+            L = largura
             n = round((k*L)/pi)  
 
             probabilidade_xp = L*Xp
             probabilidade = A**2 * sin(k * probabilidade_xp)**2
 
-            print(f"Largura da caixa (L): {L} metros")
-            print(f"Nível quântico da partícula (n): {n}")
-            print(f"Probabilidade de encontrar a partícula na posição {probabilidade_xp} é: {probabilidade:.5f}")
+            print(f"Largura da caixa (L): {L} metros\n")
+            print(f"Nível quântico da partícula (n): {n}\n")
+            print(f"Probabilidade de encontrar a partícula na posição {probabilidade_xp} é: {probabilidade:.5f}\n")
         elif menu_posicao() == 2:
-            A = float(input("Digite o valor da amplitude (A): "))
-            k = float(input("Digite o valor do número de onda (k): "))
-            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: "))
+            A = float(input("Digite o valor da amplitude (A): \n"))
+            k = float(input("Digite o valor do número de onda (k): \n"))
+            Xp = float(input("Digite a posição específica (Xp) onde deseja calcular a probabilidade: \n"))
 
             L = 2/A**2
+            largura = L
             n = round((k*L)/pi)  
             probabilidade = A**2 * sin(k * Xp)**2
 
-            print(f"Largura da caixa (L): {L} metros")
-            print(f"Nível quântico da partícula (n): {n}")
-            print(f"Probabilidade de encontrar a partícula na posição {Xp} é: {probabilidade:.5f}")
+            print(f"Largura da caixa (L): {L} metros\n")
+            print(f"Nível quântico da partícula (n): {n}\n")
+            print(f"Probabilidade de encontrar a partícula na posição {Xp} é: {probabilidade:.5f}\n")
         else:
             print("Opcao invalida")
     elif n == 3:
@@ -257,13 +271,39 @@ while(True):
 
         ani = animation.FuncAnimation(fig, animate, init_func=init, frames=500, interval=3, blit=True, repeat=True)
 
-        colors = {'blue': 'Próximo: Subir', 'green': 'Próximo: Descer'}
+        colors = {'blue': 'Absorve: Subir', 'green': 'Emite: Descer'}
         patches = [patches.Patch(color=color, label=label) for color, label in colors.items()]
-        legend_info = ['E5', 'E4', 'E3', 'E2', 'E1', 'L=Length']
+
+        #PROTON
+        E5 = (((5 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 1.6726219e-27 * (largura ** 2)))
+        E5f = "{:.4e}".format(E5)
+        E4 = (((4 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 1.6726219e-27 * (largura ** 2)))
+        E4f = "{:.4e}".format(E4)
+        E3 = (((3 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 1.6726219e-27 * (largura ** 2)))
+        E3f = "{:.4e}".format(E3)
+        E2 = (((2 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 1.6726219e-27 * (largura ** 2)))
+        E2f = "{:.4e}".format(E2)
+        E1 = (((1 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 1.6726219e-27 * (largura ** 2)))
+        E1f = "{:.4e}".format(E1)
+
+        #ELETRON
+        E5e = (((5 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 9.11e-31 * (largura ** 2)))
+        E5fe = "{:.4e}".format(E5e)
+        E4e = (((4 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 9.11e-31 * (largura ** 2)))
+        E4fe = "{:.4e}".format(E4e)
+        E3e = (((3 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 9.11e-31 * (largura ** 2)))
+        E3fe = "{:.4e}".format(E3e)
+        E2e = (((2 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 9.11e-31 * (largura ** 2)))
+        E2fe = "{:.4e}".format(E2e)
+        E1e = (((1 ** 2) * (pi ** 2) * (1.0545718e-34 ** 2)) / (2 * 9.11e-31 * (largura ** 2)))
+        E1fe = "{:.4e}".format(E1e)
+
+        legend_info = [f'E5: proton={str(E5f)} eletron={str(E5fe)}', f'E4: proton={str(E4f)} eletron={str(E4fe)}', f'E3: proton={str(E3f)} eletron={str(E3fe)}', f'E2: proton={str(E2f)} eletron={str(E2fe)}', f'E1: proton={str(E1f)} eletron={str(E1fe)}', f'Largura: {largura}']
         ax.legend(handles=patches, title="\n".join(legend_info), loc='upper right')
 
         plt.show()
     elif n == 4:
+        print("Obrigado")
         break
     else:
         print("Entrada invalida")
