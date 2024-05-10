@@ -160,7 +160,7 @@ while(True):
         print(f"Comprimento de onda de De Broglie no nível final ({n_final}): {2*L/n_final} unidades")
 
         prob = probability(a, b, n_inicial, L)
-        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n} é {prob:.4f}.")
+        print(f"A probabilidade de encontrar a partícula entre {a} m e {b} m no nível n = {n_inicial} é {prob:.4f}.")
 
     elif n == 2:
         if menu_posicao() == 1:
